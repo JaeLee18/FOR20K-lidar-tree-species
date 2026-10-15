@@ -1,0 +1,12 @@
+.git
+.venv
+android
+docs
+weights/*
+!weights/manifest.json
+data/raw
+data/renders_*
+mvtree_data
+runs
+submissions
+**/__pycache__

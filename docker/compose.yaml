@@ -1,0 +1,26 @@
+# Self-hosted web app. From the repository root:
+#   docker compose -f docker/compose.yaml up -d      # then open http://localhost:8000
+# Records (SQLite + scans + previews) persist in ./mvtree_data; weights are read from ./weights.
+# To share on a network, publish "8000:8000" instead and export MVTREE_TOKEN before starting.
+services:
+  mvtree:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: three-lidars
+    command: ["serve", "--host", "0.0.0.0", "--port", "8000", "--data-dir", "/data"]
+    environment:
+      MVTREE_TOKEN: ${MVTREE_TOKEN:-}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ../weights:/app/weights
+      - ../mvtree_data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped

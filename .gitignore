@@ -1,0 +1,38 @@
+# weights are distributed separately (Google Drive); keep the manifest + readme
+weights/*
+!weights/manifest.json
+!weights/README.md
+
+# data: only the public metadata CSV is tracked
+data/*
+!data/metadata/
+data/metadata/*
+!data/metadata/tree_metadata_dev.csv
+
+# the film's generator and its assets stay local; the rendered film is docs/assets/video/overview.mp4
+scripts/media/make_video.py
+scripts/media/fonts/
+docs/assets/video/poster.jpg
+
+# training / prediction outputs
+runs/
+submissions/
+mvtree_data/
+renders/
+wandb/
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store

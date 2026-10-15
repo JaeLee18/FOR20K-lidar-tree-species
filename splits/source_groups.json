@@ -1,0 +1,37 @@
+{
+  "fold_0": [
+    "BlueCat_a",
+    "Junttila",
+    "VanDeBerge_2021"
+  ],
+  "fold_1": [
+    "Weiser_2022b",
+    "Xi_2020a",
+    "Luck",
+    "UBC_2022"
+  ],
+  "fold_2": [
+    "Owen_2021",
+    "Puliti_b",
+    "Liang_2018",
+    "Weiser_2022a",
+    "Luke"
+  ],
+  "fold_3": [
+    "Saarinen_2021",
+    "Calders_2022",
+    "FORinstance_NIBIO",
+    "LAUTx",
+    "FORinstance_SCION"
+  ],
+  "fold_4": [
+    "BlueCat_b",
+    "Puliti_a",
+    "Seidl_2021",
+    "Frey_2022",
+    "Xi_2020b",
+    "Mokros_2022",
+    "REMBIOFOR",
+    "FORinstance_CULS"
+  ]
+}

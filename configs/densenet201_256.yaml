@@ -1,0 +1,21 @@
+# Ablation (paper Table 2): DenseNet-201 x 3 with the same recipe. OOF OA 0.818, macro-F1 0.761.
+# Note: the paper's DenseNet baseline was trained with class-weighted cross-entropy (the
+# original DetailView setup); this config uses logit-adjusted CE for a backbone-only comparison.
+backbone: densenet201
+img_size: 256
+renders: data/renders_256/dev
+split: splits/random_5fold.csv
+metadata: data/metadata/tree_metadata_dev.csv
+epochs: 40
+freeze_epochs: 3
+batch_size: 8
+accum_steps: 4
+lr_backbone: 3.0e-5
+lr_head: 3.0e-4
+weight_decay: 1.0e-4
+grad_clip: 1.0
+logit_adjust_tau: 1.0
+label_smoothing: 0.0
+dropout: 0.3
+num_workers: 4
+amp: true

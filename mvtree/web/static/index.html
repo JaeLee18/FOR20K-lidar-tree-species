@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mvtree · Tree species from LiDAR</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="favicon.svg" alt="" width="30" height="30">
+      <div>
+        <strong>mvtree</strong>
+        <span>Tree species from single-tree LiDAR scans</span>
+      </div>
+    </div>
+    <div id="model-status" class="pill pill-wait" title="">
+      <span class="dot"></span><span class="pill-text">Connecting…</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="side">
+      <section class="card">
+        <h2>Add scans</h2>
+        <label id="dropzone" class="dropzone" tabindex="0">
+          <input id="file-input" type="file" multiple>
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <strong>Drop point clouds here</strong>
+          <span>or click to choose files</span>
+          <small id="ext-hint">One tree per file</small>
+        </label>
+        <label class="field">
+          <span>Site or plot <em>(optional, saved with each upload)</em></span>
+          <input id="site-input" type="text" maxlength="200" placeholder="e.g. Plot 12, north transect" autocomplete="off">
+        </label>
+        <ul id="upload-list" class="upload-list"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Summary</h2>
+        <div class="stats">
+          <div><b id="st-records">0</b><span>records</span></div>
+          <div><b id="st-verified">0</b><span>verified</span></div>
+          <div><b id="st-acc">–</b><span>agreement</span></div>
+        </div>
+        <p class="hint" id="acc-hint">Add the species you confirmed in the field to a record, and this tracks how often the model agrees.</p>
+        <h3>Predicted species</h3>
+        <ol id="species-bars" class="species-bars"></ol>
+      </section>
+    </aside>
+
+    <section class="card records">
+      <div class="records-head">
+        <h2>Records</h2>
+        <a id="export" class="btn" href="api/export.csv">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Export CSV
+        </a>
+      </div>
+      <div class="filters">
+        <input id="q" type="search" placeholder="Search file, site, notes" aria-label="Search records">
+        <select id="f-species" aria-label="Species"><option value="">All species</option></select>
+        <select id="f-verified" aria-label="Verification">
+          <option value="">Any verification</option>
+          <option value="yes">Verified</option>
+          <option value="no">Not verified</option>
+          <option value="mismatch">Model disagrees</option>
+        </select>
+        <select id="f-status" aria-label="Status">
+          <option value="">Any status</option>
+          <option value="done">Done</option>
+          <option value="queued">Queued</option>
+          <option value="running">Running</option>
+          <option value="error">Failed</option>
+        </select>
+        <select id="f-sort" aria-label="Sort">
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+          <option value="confidence">Least confident first</option>
+          <option value="-confidence">Most confident first</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table id="records-table">
+          <thead>
+            <tr><th class="c-thumb"></th><th>Scan</th><th>Prediction</th><th>Verified</th><th class="c-status">Status</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="empty" class="empty" hidden></div>
+      </div>
+      <div class="pager">
+        <span id="page-info"></span>
+        <div>
+          <button id="prev" class="btn" type="button">Previous</button>
+          <button id="next" class="btn" type="button">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="backdrop" class="backdrop" hidden></div>
+  <aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden>
+    <div class="drawer-head">
+      <div>
+        <h2 id="d-title"></h2>
+        <p id="d-sub" class="muted"></p>
+      </div>
+      <button id="d-close" class="icon-btn" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div id="d-banner"></div>
+      <div id="d-viewer" class="viewer" hidden>
+        <canvas></canvas>
+        <span class="viewer-hint">Drag to rotate · scroll to zoom · double-click to reset</span>
+        <span class="viewer-scale"><i class="ramp"></i><span id="d-height"></span></span>
+      </div>
+      <div id="d-result"></div>
+      <form id="d-form" class="record-form" autocomplete="off">
+        <h3>Your record</h3>
+        <label class="field">
+          <span>Verified species <em>(what the tree really is, if known)</em></span>
+          <input name="verified_species" list="species-list" maxlength="100" placeholder="Not verified">
+        </label>
+        <label class="field">
+          <span>Site or plot</span>
+          <input name="site" maxlength="200">
+        </label>
+        <label class="field">
+          <span>Notes</span>
+          <textarea name="notes" rows="3" maxlength="5000" placeholder="DBH, health, photo IDs, anything worth keeping"></textarea>
+        </label>
+        <div class="form-row">
+          <button class="btn primary" type="submit">Save</button>
+          <span id="d-saved" class="muted"></span>
+        </div>
+      </form>
+      <dl id="d-meta" class="meta"></dl>
+      <div class="actions">
+        <a id="d-download" class="btn" href="#">Download scan</a>
+        <button id="d-rerun" class="btn" type="button">Run again</button>
+        <button id="d-delete" class="btn danger" type="button">Delete</button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="gate" class="gate" hidden>
+    <form id="gate-form" class="card">
+      <h2>Access token</h2>
+      <p class="muted">This server was started with <code>--token</code>. Enter it to continue; it is remembered in this browser.</p>
+      <input name="token" type="password" required autocomplete="current-password" aria-label="Access token">
+      <button class="btn primary" type="submit">Continue</button>
+    </form>
+  </div>
+
+  <datalist id="species-list"></datalist>
+  <script src="app.js"></script>
+</body>
+</html>

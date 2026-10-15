@@ -1,0 +1,11 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+# produced by scripts/export/export_mobile.py (~290 MB); see README
+app/src/main/assets/model.onnx
+

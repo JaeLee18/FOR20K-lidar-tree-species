@@ -1,0 +1,21 @@
+# Ablation (paper Table 2): DINOv2-Base (ViT-B/14) x 3. Renders are resized to 224 px inside
+# the model. OOF OA 0.819, macro-F1 0.758. Batch 16 x accum 2 (effective 32).
+backbone: vit_base_patch14_dinov2.lvd142m
+img_size: 256
+backbone_img_size: 224
+renders: data/renders_256/dev
+split: splits/random_5fold.csv
+metadata: data/metadata/tree_metadata_dev.csv
+epochs: 40
+freeze_epochs: 3
+batch_size: 16
+accum_steps: 2
+lr_backbone: 3.0e-5
+lr_head: 3.0e-4
+weight_decay: 1.0e-4
+grad_clip: 1.0
+logit_adjust_tau: 1.0
+label_smoothing: 0.0
+dropout: 0.3
+num_workers: 4
+amp: true

@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this code, the cross-source splits, or the released weights, please cite the paper and the FOR-species20K dataset."
+title: "Three LiDARs, Twenty-Five Datasets: Cross-Source Generalization in Tree-Species Recognition"
+type: software
+license: GPL-3.0-or-later
+version: 1.0.0
+repository-code: "https://github.com/JaeLee18/FOR20K-lidar-tree-species"
+authors:
+  - family-names: Lee
+    given-names: Jae Joong
+  - family-names: Benes
+    given-names: Bedrich
+preferred-citation:
+  type: conference-paper
+  title: "Three LiDARs, Twenty-Five Datasets: Cross-Source Generalization in Tree-Species Recognition"
+  authors:
+    - family-names: Lee
+      given-names: Jae Joong
+    - family-names: Benes
+      given-names: Bedrich
+  conference:
+    name: "IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)"
+  year: 2027
+references:
+  - type: article
+    title: "Benchmarking tree species classification from proximally sensed laser scanning data: Introducing the FOR-species20K dataset"
+    authors:
+      - family-names: Puliti
+        given-names: Stefano
+      - name: "and others"
+    journal: "Methods in Ecology and Evolution"
+    volume: 16
+    issue: 4
+    start: 801
+    end: 818
+    year: 2025

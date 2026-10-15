@@ -1,0 +1,23 @@
+# ConvNeXtV2-Base x 3 at 512 px: the second member of the multi-resolution model.
+# 5-fold OOF: OA 0.894, macro-F1 0.855 (paper Table 2). ~24 GPU-hours per fold on an RTX 4090.
+# Identical recipe to 256 px; batch 2 x accumulation 16 keeps the effective batch at 32
+# within 24 GB (ConvNeXt uses LayerNorm, so the smaller micro-batch does not change the model).
+backbone: convnextv2_base.fcmae_ft_in22k_in1k
+img_size: 512
+renders: data/renders_512/dev
+split: splits/random_5fold.csv
+metadata: data/metadata/tree_metadata_dev.csv
+
+epochs: 40
+freeze_epochs: 3
+batch_size: 2
+accum_steps: 16
+lr_backbone: 3.0e-5
+lr_head: 3.0e-4
+weight_decay: 1.0e-4
+grad_clip: 1.0
+logit_adjust_tau: 1.0
+label_smoothing: 0.0
+dropout: 0.3
+num_workers: 8
+amp: true

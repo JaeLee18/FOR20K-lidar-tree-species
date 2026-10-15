@@ -1,0 +1,8 @@
+# Training, the geometric (LightGBM) branch, and tests, on top of inference.txt
+-r inference.txt
+lightgbm==4.6.0
+scipy==1.16.0
+imbalanced-learn>=0.12
+requests>=2.31
+wandb>=0.16
+pytest>=8.0

@@ -1,0 +1,11 @@
+# conda env create -f requirements/environment.yml && conda activate mvtree
+name: mvtree
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - -r train.txt   # conda runs pip from this folder
+      - -e ..

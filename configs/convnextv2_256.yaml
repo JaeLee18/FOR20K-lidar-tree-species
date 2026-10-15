@@ -1,0 +1,21 @@
+# ConvNeXtV2-Base x 3 at 256 px: the single-resolution reference model.
+# 5-fold OOF on the public labeled set: OA 0.886, macro-F1 0.843 (paper Table 2).
+backbone: convnextv2_base.fcmae_ft_in22k_in1k
+img_size: 256
+renders: data/renders_256/dev
+split: splits/random_5fold.csv
+metadata: data/metadata/tree_metadata_dev.csv
+
+epochs: 40
+freeze_epochs: 3          # head-only warmup
+batch_size: 8
+accum_steps: 4            # effective batch 32
+lr_backbone: 3.0e-5
+lr_head: 3.0e-4
+weight_decay: 1.0e-4
+grad_clip: 1.0
+logit_adjust_tau: 1.0     # logit-adjusted cross-entropy (Menon et al., 2021)
+label_smoothing: 0.0
+dropout: 0.3
+num_workers: 4
+amp: true

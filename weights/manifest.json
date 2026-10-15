@@ -1,0 +1,77 @@
+{
+  "gdrive_folder": "https://drive.google.com/drive/folders/17avKbgHfTMpGV1Nlq8Yaz4-u7p1lvKtq",
+  "files": {
+    "convnextv2_256/config.json": {
+      "bytes": 1712,
+      "sha256": "9dbf2e6b4d64e666d0dc38541f7dcfb1c8112bf90d5afdcf6e2db615595d88c7"
+    },
+    "convnextv2_256/fold0.safetensors": {
+      "bytes": 529481710,
+      "sha256": "45382059afa341d84df180ef0c5690df08b603f35ac0024731ba75ad831e90bb"
+    },
+    "convnextv2_256/fold1.safetensors": {
+      "bytes": 529481710,
+      "sha256": "f34e588be2b1f14589de42eb7c51c1020f0047b2cd1b890ef1e95e555f6128ba"
+    },
+    "convnextv2_256/fold2.safetensors": {
+      "bytes": 529481710,
+      "sha256": "90dd2bd5da72fd8d03d1b95d2583f3f8d81081b1c16b9601a6ea3f008c18b0f7"
+    },
+    "convnextv2_256/fold3.safetensors": {
+      "bytes": 529481710,
+      "sha256": "8dc6c813845ebd5ce1f79e67db65dadea72d17ce431676a3aa65504fa7a08890"
+    },
+    "convnextv2_256/fold4.safetensors": {
+      "bytes": 529481710,
+      "sha256": "f2f122da6c7adaffa0e0bb935927c016714d637c176af6d33d26dd220f004c46"
+    },
+    "convnextv2_512/config.json": {
+      "bytes": 1709,
+      "sha256": "15fadc145779846d159de8df07d19f1b696261d3b665c01a1d0f79f465749567"
+    },
+    "convnextv2_512/fold0.safetensors": {
+      "bytes": 529481710,
+      "sha256": "449643fd7e4623556cc03c1409443038d9ca36e401f73ee77f60c0110a33bd81"
+    },
+    "convnextv2_512/fold1.safetensors": {
+      "bytes": 529481710,
+      "sha256": "2f1f31718255b7ce7b79f0ddfd1bb890edf0c30a449ace0515d612a977895efc"
+    },
+    "convnextv2_512/fold2.safetensors": {
+      "bytes": 529481710,
+      "sha256": "9f70ca4c0bba64b2292e05efb2b7e4f44b502fefe103a400336808709edb8fa4"
+    },
+    "convnextv2_512/fold3.safetensors": {
+      "bytes": 529481710,
+      "sha256": "46d018ca0dae08c82ca178ae682312f3c7e61d98d0cfdc318135be4c79a7e762"
+    },
+    "convnextv2_512/fold4.safetensors": {
+      "bytes": 529481710,
+      "sha256": "c949f53845dd45a850b6bbfac6a17a5770ee272a3d76ec5ce49cf3a1b1960680"
+    },
+    "geometry_lgbm/config.json": {
+      "bytes": 3651,
+      "sha256": "7e7fe00168d2913bd2a64846c650f7417ecfdc7692e73fae682beabd8de82788"
+    },
+    "geometry_lgbm/fold0.txt": {
+      "bytes": 19661527,
+      "sha256": "7b12a0b692e644f82fe860fedc6930d8184622a246b0b8f4cafec5e7635a7b80"
+    },
+    "geometry_lgbm/fold1.txt": {
+      "bytes": 16997178,
+      "sha256": "844eb514575441591e6a3687c2cd005304f6154b827eb013c715cff42f595441"
+    },
+    "geometry_lgbm/fold2.txt": {
+      "bytes": 16883996,
+      "sha256": "f04fb38d6c75b63cb1df17f498944c3397db43f0edce66e1888cf8b92ebcc705"
+    },
+    "geometry_lgbm/fold3.txt": {
+      "bytes": 17491339,
+      "sha256": "148caaae502b8895fa26fab06b2a004c9a0b4c2c782fb24370a47b2979999c16"
+    },
+    "geometry_lgbm/fold4.txt": {
+      "bytes": 19510692,
+      "sha256": "3ac17fad13b4e7ebcdd94a742147738068ce0d7842d9a27c9d979d19859e381f"
+    }
+  }
+}

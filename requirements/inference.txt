@@ -1,0 +1,15 @@
+# Inference + evaluation. Versions are the ones the release was tested with.
+# CUDA wheels: pip install -r requirements/inference.txt --extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.9.0
+torchvision==0.24.0
+timm==1.0.21
+numpy==1.26.4
+pillow>=10.0
+laspy[lazrs]==2.7.0
+safetensors==0.6.2
+pandas==2.3.3
+scikit-learn==1.8.0
+pyyaml>=6.0
+tqdm>=4.66
+gdown>=5.2
+plyfile>=1.0
