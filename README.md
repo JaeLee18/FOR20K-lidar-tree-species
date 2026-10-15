@@ -10,7 +10,7 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.9-ee4c2c)
 [![Dataset](https://img.shields.io/badge/data-FOR--species20K-2e7d32)](https://doi.org/10.5281/zenodo.13255198)
 
-<img src="docs/assets/demo.gif" width="760" alt="A rotating single-tree point cloud next to the model's top-5 species probabilities, for four example trees">
+https://github.com/user-attachments/assets/94bc975c-49b0-4367-aa68-9faa105d9ed1
 
 **Give it a laser scan of one tree, and it tells you the species.**
 
