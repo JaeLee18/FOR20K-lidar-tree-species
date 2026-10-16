@@ -1,0 +1,53 @@
+{
+  "gdrive_folder": "https://drive.google.com/drive/folders/1dyHPUArvDR5bO4CEKNv0RRm6N_g9-Jhg",
+  "files": {
+    "convnextv2_256/config.json": {
+      "bytes": 1710,
+      "sha256": "7bdc9b3025ba5454ebfd0ddf71b7b5ff600f25a08e9c99dc5116cfde6ed8dc64"
+    },
+    "convnextv2_256/fold0.safetensors": {
+      "bytes": 529481710,
+      "sha256": "97d396097eb2c105e2dce2b293ba90b85ea2f2e5765dba6285fe43de11dcb743"
+    },
+    "convnextv2_256/fold1.safetensors": {
+      "bytes": 529481710,
+      "sha256": "b777b13bc22b10de5358ad518365cf268d510b2fb9acc1cbee6f1715fce02ff5"
+    },
+    "convnextv2_256/fold2.safetensors": {
+      "bytes": 529481710,
+      "sha256": "c1fe0eebed889c1d94370d3a7b81221a8fa9d38dc3b9af87d0deb5df505db2f8"
+    },
+    "convnextv2_256/fold3.safetensors": {
+      "bytes": 529481710,
+      "sha256": "631e6f4a269815edd060488171bf728c44bdc5b4b08c86462e450455f1184994"
+    },
+    "convnextv2_256/fold4.safetensors": {
+      "bytes": 529481710,
+      "sha256": "7d84c431d94761fcb176d640379808964cdcb28e8df88c44ef75166cb99230ef"
+    },
+    "convnextv2_512/config.json": {
+      "bytes": 1712,
+      "sha256": "7eecd4b30fbda7ecab062e151367801f6c551c16eed9f724de5a4fa7ea36dabc"
+    },
+    "convnextv2_512/fold0.safetensors": {
+      "bytes": 529481710,
+      "sha256": "36a2a279cf6b049f865daa34013f377ffcaec5c74675e0bc8b053a10eb166d5e"
+    },
+    "convnextv2_512/fold1.safetensors": {
+      "bytes": 529481710,
+      "sha256": "7cdf5b7ae135e6c63eed836008cd6e042de5679ec260d1fa27bc2406f555d230"
+    },
+    "convnextv2_512/fold2.safetensors": {
+      "bytes": 529481710,
+      "sha256": "6ad7d0c9efc3aeb17c90dbd81d978e393bf27bbd7861d990366b7eb641723acf"
+    },
+    "convnextv2_512/fold3.safetensors": {
+      "bytes": 529481710,
+      "sha256": "8d33a0be09f9975d49a972d0463edb5842399a34d73a08798df96b601b239836"
+    },
+    "convnextv2_512/fold4.safetensors": {
+      "bytes": 529481710,
+      "sha256": "8c11bfc0c749c472c8b423469eacf03dd604c5d3d28853d5b56e85147af94569"
+    }
+  }
+}

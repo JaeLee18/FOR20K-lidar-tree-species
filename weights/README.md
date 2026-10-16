@@ -21,6 +21,10 @@ weights/
 `config.json` in each folder records the backbone, render size, normalisation statistics, class order, and the
 validation scores of every fold.
 
+The same two models trained again on a Cloud TPU are in a separate Drive folder; `python -m mvtree download --weights
+weights_tpu` fetches them ([tpu/README.md](../tpu/README.md#results)). The weights in this folder are the released
+ones.
+
 ## Available models
 
 | Model | Render size | Folds | Public-set OOF OA / macro-F1 | Hidden test OA | Size |

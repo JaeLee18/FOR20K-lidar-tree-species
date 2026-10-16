@@ -2,6 +2,9 @@
 weights/*
 !weights/manifest.json
 !weights/README.md
+# TPU-trained weights (tpu/README.md), likewise
+weights_tpu/*
+!weights_tpu/manifest.json
 
 # data: only the public metadata CSV is tracked
 data/*
@@ -27,6 +30,7 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
+.venv-tpu/
 .pytest_cache/
 .ruff_cache/
 build/

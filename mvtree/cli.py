@@ -49,32 +49,41 @@ def _cmd_predict(args: argparse.Namespace) -> int:
     elapsed = time.time() - t0
 
     if not args.quiet:
-        for r in results:
-            print(f"\n{os.path.basename(r.path)}  ({r.n_points:,} points, height {r.tree_height:.1f} m)")
-            for rank, (sp, p) in enumerate(r.top(args.topk), 1):
-                bar = "#" * int(round(p * 30))
-                print(f"  {rank}. {sp:<24s} {p:6.1%}  {bar}")
+        print_predictions(results, args.topk)
         print(f"\n[mvtree] {len(results)} scan(s) in {elapsed:.1f}s", file=sys.stderr)
-
     if args.output:
-        os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
-        if args.output.endswith(".json"):
-            with open(args.output, "w") as fh:
-                json.dump([r.to_dict(args.topk, with_probs=True) for r in results], fh, indent=2)
-        else:
-            with open(args.output, "w", newline="") as fh:
-                w = csv.writer(fh)
-                header = ["file", "n_points", "tree_height_m", "species", "genus", "confidence"]
-                for k in range(2, args.topk + 1):
-                    header += [f"top{k}_species", f"top{k}_prob"]
-                w.writerow(header)
-                for r in results:
-                    row = [r.path, r.n_points, f"{r.tree_height:.3f}", r.species, r.genus, f"{r.confidence:.4f}"]
-                    for sp, p in r.top(args.topk)[1:]:
-                        row += [sp, f"{p:.4f}"]
-                    w.writerow(row)
+        write_predictions(results, args.output, args.topk)
         print(f"[mvtree] wrote {args.output}", file=sys.stderr)
     return 0
+
+
+def print_predictions(results, topk: int = 5) -> None:
+    """Print each scan's top-k species with a text bar."""
+    for r in results:
+        print(f"\n{os.path.basename(r.path)}  ({r.n_points:,} points, height {r.tree_height:.1f} m)")
+        for rank, (sp, p) in enumerate(r.top(topk), 1):
+            bar = "#" * int(round(p * 30))
+            print(f"  {rank}. {sp:<24s} {p:6.1%}  {bar}")
+
+
+def write_predictions(results, path: str, topk: int = 5) -> None:
+    """Write predictions to ``.json`` (with all probabilities) or ``.csv`` (top-k columns)."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    if path.endswith(".json"):
+        with open(path, "w") as fh:
+            json.dump([r.to_dict(topk, with_probs=True) for r in results], fh, indent=2)
+        return
+    with open(path, "w", newline="") as fh:
+        w = csv.writer(fh)
+        header = ["file", "n_points", "tree_height_m", "species", "genus", "confidence"]
+        for k in range(2, topk + 1):
+            header += [f"top{k}_species", f"top{k}_prob"]
+        w.writerow(header)
+        for r in results:
+            row = [r.path, r.n_points, f"{r.tree_height:.3f}", r.species, r.genus, f"{r.confidence:.4f}"]
+            for sp, p in r.top(topk)[1:]:
+                row += [sp, f"{p:.4f}"]
+            w.writerow(row)
 
 
 def _cmd_render(args: argparse.Namespace) -> int:

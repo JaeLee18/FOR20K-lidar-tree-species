@@ -22,7 +22,7 @@ jobs:
           pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
           pip install -e ".[geometry,dev]"
       - name: Lint
-        run: ruff check mvtree scripts tests
+        run: ruff check mvtree scripts tests tpu
       - name: Unit tests
         run: pytest -q
       - name: Reproduce the paper's public-set numbers

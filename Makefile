@@ -23,7 +23,7 @@ test:            ## unit tests (CPU, no weights needed; prediction test runs if 
 	$(PY) -m pytest -q
 
 lint:            ## ruff
-	ruff check mvtree scripts tests
+	ruff check mvtree scripts tests tpu
 
 data:            ## download FOR-species20K from Zenodo (~27 GB)
 	$(PY) scripts/data/download_data.py

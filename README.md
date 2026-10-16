@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/94bc975c-49b0-4367-aa68-9faa105d9ed1
 
 **Give it a laser scan of one tree, and it tells you the species.**
 
-[Quick start](#quick-start) · [Usage](#usage) · [Results](#results) · [Reproduce the paper](#reproduce-the-paper) · [Documentation](docs/README.md) · [Citation](#citation)
+[Quick start](#quick-start) · [Usage](#usage) · [Cloud TPU](#cloud-tpu) · [Results](#results) · [Reproduce the paper](#reproduce-the-paper) · [Documentation](docs/README.md) · [Citation](#citation)
 
 </div>
 
@@ -26,7 +26,7 @@ datasets, scanned by terrestrial (TLS), mobile (MLS), and drone (ULS) laser scan
 
 - **A tree-species classifier.** It scores **85.0% overall accuracy on the official hidden test**, first on the
   leaderboard at submission (the previous best was 79.5%). You can run it from the command line, from Python, in a
-  self-hosted web app, or offline in an Android app.
+  self-hosted web app, offline in an Android app, or on Google Cloud TPUs ([`tpu/`](tpu/README.md)).
 - **A cross-source evaluation protocol.** If a species is learned only from other source datasets, accuracy on the
   same trees falls from **95% to 60%**. The released splits and scripts measure any model the same way.
 
@@ -93,6 +93,42 @@ full-precision fold (89.1% on its 3,542 held-out trees).
 
 Build, install, and tests: [android/README.md](android/README.md).
 
+### Cloud TPU
+
+The [`tpu/`](tpu/README.md) folder runs the same model on Google Cloud TPUs with PyTorch/XLA, for prediction and for
+training:
+
+| Path | What it does |
+|---|---|
+| `tpu/predict_tpu.py` | predicts on every chip of the host; same options and output as `mvtree predict` |
+| `tpu/train_tpu.py`, `tpu/train_all_folds_tpu.sh` | the GPU training recipe and configs, data-parallel over the chips |
+| `tpu/cloud/` | runs a whole five-fold training job on a spot TPU VM unattended, with data and results in a GCS bucket |
+
+```bash
+python tpu/predict_tpu.py scans/ -o predictions.csv                                     # on a TPU VM
+bash tpu/train_all_folds_tpu.sh configs/convnextv2_256.yaml runs/tpu_convnextv2_256
+```
+
+Measured on one v6e-4 VM (four TPU v6e chips), against one GPU:
+
+| Task | TPU v6e-4 | GPU |
+|---|---|---|
+| Predict one tree (both sizes, 5 folds, 20 augmentations) | 0.33 s | 2 s (RTX 4090) |
+| Train one fold, 256 px | 79 min | about 6 h (RTX 4090) |
+| Train one fold, 512 px | 3.3 h | about 24 h (RTX 4090), 13 h (H100) |
+
+Both models were also trained from scratch on the TPU. Their five-fold OA / macro-F1 is 0.886 / 0.837 at 256 px,
+0.895 / 0.854 at 512 px, and 0.899 / 0.854 for both, against 0.886 / 0.843, 0.895 / 0.856, and 0.899 / 0.861 for the
+released weights: the same OA and a macro-F1 0.002 to 0.007 lower ([comparison](tpu/README.md#results)). The
+TPU-trained weights are on Google Drive too:
+
+```bash
+python -m mvtree download --weights weights_tpu             # into ./weights_tpu, SHA-256 verified
+python -m mvtree predict examples/ --weights weights_tpu    # they run on a GPU or CPU as well
+```
+
+Setup, options, and the Cloud scripts: [tpu/README.md](tpu/README.md).
+
 ## How it works
 
 <p align="center"><img src="docs/assets/pipeline.png" width="820" alt="Pipeline: a tree point cloud is rendered into four side views, a top and bottom view, and a trunk-detail view; three ConvNeXtV2-Base backbones process the three view groups; features are max-pooled per group, concatenated with tree height, and classified by an MLP into 33 species"></p>
@@ -115,7 +151,8 @@ from scanning to prediction.
 | both resolutions (the default) | 0.899 / 0.861† | **85.0%\*†** | 5.3 GB |
 
 `python -m mvtree download` (or `./predict.sh` on first use) downloads them into `weights/` and verifies their
-checksums. Manual download and the optional LightGBM model: [weights/README.md](weights/README.md).
+checksums. Manual download and the optional LightGBM model: [weights/README.md](weights/README.md). The same models
+trained on a Cloud TPU are also available ([Cloud TPU](#cloud-tpu)).
 
 \* The submitted files also blended the optional LightGBM model, which changes public-set accuracy by less than 0.001
 ([docs/leaderboard.md](docs/leaderboard.md)).
@@ -162,12 +199,14 @@ Training from scratch (data, renders, five folds, test-set submission) is descri
 FOR20K-lidar-tree-species/
 ├── mvtree/          Python package: readers, renderer, model, predictor, CLI, and web app
 ├── android/         offline Android app (Kotlin)
+├── tpu/             Cloud TPU inference and training (PyTorch/XLA)
 ├── scripts/         data, training, evaluation, export, and media pipelines (scripts/README.md)
 ├── configs/         training recipes
 ├── splits/          cross-validation and cross-source splits
 ├── results/         out-of-fold predictions and leaderboard files behind the paper
 ├── examples/        four sample scans
 ├── weights/         model weights are downloaded here (manifest and checksums in git)
+├── weights_tpu/     the TPU-trained weights, likewise
 ├── data/            dataset metadata; the raw data is downloaded here
 ├── docs/            guides, figures, and screenshots
 ├── docker/          Dockerfile and Compose file
@@ -227,4 +266,5 @@ metadata CSV, is distributed by its authors under GPL-3.0-or-later
 
 We thank the FOR-species20K authors and the 25 contributing data providers; Frey & Schindler for DetailView, which
 introduced the seven-view rendering this work builds on; and the
-[timm](https://github.com/huggingface/pytorch-image-models) maintainers.
+[timm](https://github.com/huggingface/pytorch-image-models) maintainers. Cloud TPU compute for the TPU port
+([`tpu/`](tpu/README.md)) was provided by Google through the TPU Builder Award.

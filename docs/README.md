@@ -9,6 +9,7 @@
 | [Model weights](../weights/README.md) | available models, download, publishing new weights |
 | [How it works](method.md) | data, geometric renders, network, training recipe, test-time augmentation |
 | [Results](results.md) | full leaderboard, public-set 5-fold results, cross-source tables |
+| [Cloud TPU](../tpu/README.md) | PyTorch/XLA inference and training on TPU VMs, unattended spot-TPU runs |
 | [Training](training.md) | reproducing the paper; data, renders, splits, training, evaluation, export |
 | [Cross-source protocol](cross_source.md) | split definitions, eligibility rules, evaluating another model |
 | [Leaderboard](leaderboard.md) | how the submitted hidden-test files were made |
